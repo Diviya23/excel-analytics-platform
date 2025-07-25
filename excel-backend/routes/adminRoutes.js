@@ -4,7 +4,7 @@ const User = require('../models/User');
 const Upload = require('../models/Upload');
 const requireAuth = require('../middleware/requireAuth');
 
-// ⚠️ Optional: check admin role
+
 const checkAdmin = async (req, res, next) => {
   const user = req.user;
   if (user.role !== 'admin') {
@@ -13,7 +13,7 @@ const checkAdmin = async (req, res, next) => {
   next();
 };
 
-// GET: List all users
+
 router.get('/users', requireAuth, checkAdmin, async (req, res) => {
   try {
     const users = await User.find({}, '-password');
@@ -23,7 +23,7 @@ router.get('/users', requireAuth, checkAdmin, async (req, res) => {
   }
 });
 
-// GET: Platform stats
+
 router.get('/stats', requireAuth, checkAdmin, async (req, res) => {
   try {
     const userCount = await User.countDocuments();
@@ -34,7 +34,7 @@ router.get('/stats', requireAuth, checkAdmin, async (req, res) => {
   }
 });
 
-// DELETE user
+
 router.delete('/users/:id', requireAuth, checkAdmin, async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);

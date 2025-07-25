@@ -6,13 +6,13 @@ const fs = require('fs');
 
 const router = express.Router();
 
-// ✅ Ensure the uploads directory exists
+
 const uploadDir = path.join(__dirname, '..', 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
-// ✅ Multer storage config
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
   }
 });
 
-// ✅ Only accept Excel files
+
 const fileFilter = (req, file, cb) => {
   const allowedTypes = ['.xls', '.xlsx'];
   const ext = path.extname(file.originalname).toLowerCase();
@@ -36,7 +36,7 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage, fileFilter });
 
-// ✅ Upload Route
+
 router.post('/upload', upload.single('excelFile'), (req, res) => {
   console.log('📦 File received by backend:', req.file);         
   console.log('📦 Body received by backend:', req.body);         
@@ -61,7 +61,7 @@ router.post('/upload', upload.single('excelFile'), (req, res) => {
       return res.status(400).json({ error: 'Excel sheet is empty or unreadable' });
     }
 
-    // ✅ Optional: Delete file after reading
+    
     fs.unlink(filePath, (err) => {
       if (err) console.error('⚠️ Failed to delete uploaded file:', err);
     });

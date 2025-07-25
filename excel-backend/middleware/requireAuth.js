@@ -10,9 +10,9 @@ const requireAuth = (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    // Verify token using your secret key
+    
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { id: decoded.id }; // Attach user ID to the request
+    req.user = { id: decoded.id }; 
     next();
   } catch (err) {
     return res.status(401).json({ error: 'Unauthorized: Invalid token' });
